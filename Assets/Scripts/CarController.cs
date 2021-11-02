@@ -46,18 +46,15 @@ public class CarController : MonoBehaviour
         frontLeftWheelCollider.motorTorque = verticalInput * motorForce;
         frontRightWheelCollider.motorTorque = verticalInput * motorForce;
         currentBreakForce = isBreaking ? breakForce : 0f;
-        if (isBreaking)
-        {
-            ApplyBreaking();
-        }
+        ApplyBreaking();
     }
 
     private void ApplyBreaking()
     {
-        frontLeftWheelCollider.brakeTorque = breakForce;
-        frontRightWheelCollider.brakeTorque = breakForce;
-        rearLeftWheelCollider.brakeTorque = breakForce;
-        rearRightWheelCollider.brakeTorque = breakForce;
+        frontLeftWheelCollider.brakeTorque = currentBreakForce;
+        frontRightWheelCollider.brakeTorque = currentBreakForce;
+        rearLeftWheelCollider.brakeTorque = currentBreakForce;
+        rearRightWheelCollider.brakeTorque = currentBreakForce;
     }
 
     private void HandleSteering()
@@ -77,10 +74,7 @@ public class CarController : MonoBehaviour
 
     private void UpdateSingleWheel(WheelCollider wheelCollider, Transform wheelTransform)
     {
-        Vector3 pos;
-        Quaternion rot;
-
-        wheelCollider.GetWorldPose(out pos, out rot);
+        wheelCollider.GetWorldPose(out var pos, out var rot);
         wheelTransform.rotation = rot;
         wheelTransform.position = pos;
     }
